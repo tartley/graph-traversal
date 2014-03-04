@@ -7,6 +7,7 @@ particular nodes, then that logic isn't embedded here in our traversal code.
 
 Python 3.3
 '''
+from collections import deque
 
 def nodes(edges):
     '''
@@ -56,4 +57,15 @@ def depth_first_iterative(neighbours, start):
             visited.add(current)
             for neighbour in sorted(neighbours[current], reverse=True):
                 stack.append(neighbour)
+
+def breadth_first_iterative(neighbours, start):
+    queue = deque([start])
+    visited = set([start])
+    while queue:
+        current = queue.popleft()
+        yield current
+        for neighbour in sorted(neighbours[current]):
+            if neighbour not in visited:
+                visited.add(neighbour)
+                queue.append(neighbour)
 
