@@ -1,5 +1,10 @@
 '''
 Basic graph traversal algorithms.
+
+I like the way these generators separate the traversal of the tree from
+whatever use it's being put to. For example, if we're searching for
+particular nodes, then that logic isn't embedded here in our traversal code.
+
 Python 3.3
 '''
 
@@ -36,4 +41,19 @@ def depth_first_recursive(neighbours, start, visited=None):
     for neighbour in neighbours[start]:
         if neighbour not in visited:
             yield from depth_first_recursive(neighbours, neighbour, visited)
+
+def depth_first_iterative(neighbours, start):
+    '''
+    Uses a list as a stack.
+    Produces same output as recursive solution above.
+    '''
+    visited = set()
+    stack = [start]
+    while stack:
+        current = stack.pop()
+        if current not in visited:
+            yield current
+            visited.add(current)
+            for neighbour in sorted(neighbours[current], reverse=True):
+                stack.append(neighbour)
 
