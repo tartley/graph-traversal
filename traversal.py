@@ -22,3 +22,18 @@ def nodes(edges):
         for node in nodes
     }
 
+def depth_first_recursive(neighbours, start, visited=None):
+    '''
+    Simplest looking algorithm, because it uses the call stack implicitly,
+    rather than maintaining it explicitly like the iterative solution
+    below. But call stacks area generally of limited size, e.g. CPython's
+    defaults to 1,000 (see sys.getrecursionlimit)
+    '''
+    if visited is None:
+        visited = set()
+    yield start
+    visited.add(start)
+    for neighbour in neighbours[start]:
+        if neighbour not in visited:
+            yield from depth_first_recursive(neighbours, neighbour, visited)
+

@@ -4,7 +4,7 @@ Python 3.3
 '''
 import unittest
 
-from traversal import nodes
+from traversal import depth_first_recursive, nodes
 
 # Copy the example network used in the description at 'Graph Traversals'
 # https://www.youtube.com/watch?v=or9xlA3YYzo
@@ -35,6 +35,12 @@ class Test(unittest.TestCase):
                 'g': 'ae',
                 'h': 'c',
             }
+        )
+
+    def test_depth_first_recursive(self):
+        self.assertEqual(
+            list(depth_first_recursive(nodes(EDGES), 'a')),
+            ['a', 'b', 'e', 'g', 'f', 'c', 'h', 'd']
         )
 
 if __name__ == '__main__':
