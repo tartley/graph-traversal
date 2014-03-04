@@ -1,0 +1,10 @@
+graph-traversal
+===============
+
+A quick refresher on iterative/recursive graph traversal.
+
+Tests use the example graph which is diagrammed and discussed at:
+https://www.youtube.com/watch?v=or9xlA3YYzo
+
+Python3.3
+
