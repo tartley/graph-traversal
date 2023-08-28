@@ -9,36 +9,19 @@ Python 3.3
 '''
 from collections import deque
 
-def nodes(edges):
-    '''
-    Utility function used to create a graph (dict of node: neighbours)
-    from a sequence of edges, where:
-        a node is represented by a single character identifier,
-        an edge is a two character string,
-        neighbours is a zero-or-more character string.
-    '''
-    edges = list(map(set, edges))
-    nodes = set().union(*edges)
-    return {
-        node: ''.join(sorted(set().union(*(
-            edge - set(node)
-            for edge in edges
-            if node in edge
-        ))))
-        for node in nodes
-    }
-
 def depth_first_recursive(neighbours, start, visited=None):
     '''
     Simplest looking algorithm, because it uses the call stack implicitly,
     rather than maintaining it explicitly like the iterative solution
-    below. But call stacks area generally of limited size, e.g. CPython's
-    defaults to 1,000 (see sys.getrecursionlimit)
+    below. But call stacks are sometimes of a limited size, e.g. CPython's
+    defaults to 1,000 (see sys.getrecursionlimit), with no tail recursion.
     '''
     if visited is None:
         visited = set()
+
     yield start
     visited.add(start)
+
     for neighbour in neighbours[start]:
         if neighbour not in visited:
             yield from depth_first_recursive(neighbours, neighbour, visited)
@@ -68,4 +51,11 @@ def breadth_first_iterative(neighbours, start):
             if neighbour not in visited:
                 visited.add(neighbour)
                 queue.append(neighbour)
+
+# Breadth-first recursive is a fundamental mismatch. Breadth-first is most
+# easily implemented using a queue, while doing it recursively implies using a
+# (call) stack, which is the opposite of a queue. It can be done, but
+# essentially by either implementing depth first and then re-ordering output to
+# be breadth first, or by passing an entirely separate queue along the mostly
+# redundant call stack.
 
